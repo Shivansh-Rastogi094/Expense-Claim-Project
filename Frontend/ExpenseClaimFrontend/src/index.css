@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --color-on-tertiary: #ffffff;
+  --color-surface-container-high: #eae7e9;
+  --color-on-secondary: #ffffff;
+  --color-tertiary-container: #271901;
+  --color-on-error: #ffffff;
+  --color-on-surface-variant: #45464d;
+  --color-on-tertiary-fixed: #271901;
+  --color-secondary-fixed: #dbe1ff;
+  --color-primary-container: #131b2e;
+  --color-primary: #000000;
+  --color-background: #fcf8fa;
+  --color-surface-container-highest: #e4e2e4;
+  --color-surface-variant: #e4e2e4;
+  --color-border-subtle: #E2E8F0;
+  --color-surface-container-low: #f6f3f5;
+  --color-inverse-primary: #bec6e0;
+  --color-inverse-surface: #303032;
+  --color-outline-variant: #c6c6cd;
+  --color-inverse-on-surface: #f3f0f2;
+  --color-on-secondary-fixed: #00174b;
+  --color-primary-fixed: #dae2fd;
+  --color-tertiary-fixed: #fcdeb5;
+  --color-primary-fixed-dim: #bec6e0;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-outline: #76777d;
+  --color-secondary-fixed-dim: #b4c5ff;
+  --color-surface: #fcf8fa;
+  --color-surface-container: #f0edef;
+  --color-on-tertiary-fixed-variant: #574425;
+  --color-on-primary-container: #7c839b;
+  --color-surface-dim: #dcd9db;
+  --color-on-secondary-fixed-variant: #003ea8;
+  --color-on-background: #1b1b1d;
+  --color-tertiary: #000000;
+  --color-status-pending: #F59E0B;
+  --color-on-error-container: #93000a;
+  --color-secondary: #0051d5;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface: #1b1b1d;
+  --color-status-rejected: #EF4444;
+  --color-tertiary-fixed-dim: #dec29a;
+  --color-surface-muted: #F8FAFC;
+  --color-on-primary: #ffffff;
+  --color-on-primary-fixed-variant: #3f465c;
+  --color-surface-bright: #fcf8fa;
+  --color-on-primary-fixed: #131b2e;
+  --color-secondary-container: #316bf3;
+  --color-on-secondary-container: #fefcff;
+  --color-on-tertiary-container: #98805d;
+  --color-status-approved: #10B981;
+  --color-surface-tint: #565e74;
+
+  --border-radius-default: 0.125rem;
+  --border-radius-lg: 0.25rem;
+  --border-radius-xl: 0.5rem;
+  --border-radius-full: 0.75rem;
+
+  --spacing-stack-sm: 0.5rem;
+  --spacing-stack-md: 1rem;
+  --spacing-stack-lg: 2rem;
+  --spacing-margin-page: 2rem;
+  --spacing-gutter-grid: 1.5rem;
+
+  --font-family-body-lg: "Inter", sans-serif;
+  --font-family-body-md: "Inter", sans-serif;
+  --font-family-body-sm: "Inter", sans-serif;
+  --font-family-label-sm: "JetBrains Mono", monospace;
+  --font-family-headline-lg: "Manrope", sans-serif;
+  --font-family-label-md: "JetBrains Mono", monospace;
+  --font-family-headline-md: "Manrope", sans-serif;
+  --font-family-headline-sm: "Manrope", sans-serif;
+  --font-family-headline-lg-mobile: "Manrope", sans-serif;
+
+  --font-size-body-lg: 18px;
+  --font-size-body-md: 16px;
+  --font-size-body-sm: 14px;
+  --font-size-label-sm: 12px;
+  --font-size-headline-lg: 32px;
+  --font-size-label-md: 14px;
+  --font-size-headline-md: 24px;
+  --font-size-headline-sm: 20px;
+  --font-size-headline-lg-mobile: 24px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c6c6cd;
+}
+
+/* Material Symbols Icon Tweaks */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.fill-icon, .icon-fill {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Custom Utility Badges */
+@utility badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@utility badge-approved {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+@utility badge-pending {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #F59E0B;
+}
+
+@utility badge-rejected {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+/* Tabular Nums */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card Ambient Shadow */
+.ambient-shadow {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+}
