@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monthly Summary - ExpenseFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#eae7e9",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#271901",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "on-tertiary-fixed": "#271901",
+                        "secondary-fixed": "#dbe1ff",
+                        "primary-container": "#131b2e",
+                        "primary": "#000000",
+                        "background": "#fcf8fa",
+                        "surface-container-highest": "#e4e2e4",
+                        "surface-variant": "#e4e2e4",
+                        "border-subtle": "#E2E8F0",
+                        "surface-container-low": "#f6f3f5",
+                        "inverse-primary": "#bec6e0",
+                        "inverse-surface": "#303032",
+                        "outline-variant": "#c6c6cd",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-secondary-fixed": "#00174b",
+                        "primary-fixed": "#dae2fd",
+                        "tertiary-fixed": "#fcdeb5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "outline": "#76777d",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#fcf8fa",
+                        "surface-container": "#f0edef",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#dcd9db",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-background": "#1b1b1d",
+                        "tertiary": "#000000",
+                        "status-pending": "#F59E0B",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0051d5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1b1d",
+                        "status-rejected": "#EF4444",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "surface-muted": "#F8FAFC",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-bright": "#fcf8fa",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-container": "#98805d",
+                        "status-approved": "#10B981",
+                        "surface-tint": "#565e74"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "0.5rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "margin-page": "2rem",
+                        "gutter-grid": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Manrope"],
+                        "headline-sm": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 border-r border-border-subtle flex flex-col py-6 px-4 bg-surface-container-low z-20">
+<div class="mb-stack-lg px-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold font-headline-sm">
+                EF
+            </div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ExpenseFlow</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Finance Dept</p>
+</div>
+</div>
+<ul class="flex-1 space-y-2">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-body-md text-body-md">Submit Claim</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-body-md text-body-md">All Claims</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-body-md text-body-md">Review Claims</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-body-md text-body-md">Budgets</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-body-md text-body-md">Monthly Summary</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto px-4">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A small, professional circular avatar portrait of a modern finance manager wearing smart-casual attire. Soft, bright lighting on a clean white background. High quality, clear, minimalist corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwMjBePP_Ji4KjawoLEcbrR6w4Rx6gMXJj9BQgOXzPlrVd9pZphUWqW89ajK_SqY_qR9zZyEsW2czkglFKiXQFqqgG2zvuYMowQr845wD6WJR0e64qNXZVmtA3NGhBOqPSCYlzXaNzCyVrfEwBchfdL4LRnVkbYtLHIBrNrSIU6WHuCbH2HX3kDyTYX2v1Dw58qNCj7RmKimTzn6LHmE9O970irllfr9VeZphZrVFZtkYwtuzg-yXtUgtT2mlTakMcEoXRV9P0-zuy"/>
+<div>
+<p class="font-body-sm text-body-sm font-semibold text-primary">A. Manager</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Sign out</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="ml-64 flex-1 flex flex-col bg-surface-muted min-h-screen">
+<!-- TopAppBar Context -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-surface border-b border-border-subtle">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Monthly Summary</h2>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<img alt="Manager Avatar" class="w-8 h-8 rounded-full border border-border-subtle object-cover" data-alt="A professional circular avatar portrait of a corporate executive. Clean, bright lighting, light gray background, conveying trust and modernity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmoZLcokvzGHg8ChljvCLp85EPqiwoYWGbfy-giI63qO9YsLCh-wFckmGPj0MQ_ftU6Xu5jrZFyLas9ZoOV60l0qlroL0BxHOYz8WoLjHWvIplA5VkAW5HnDgJHDcUJZl0mEzk4w-Ic4I7ojvX-4BX085SGlFAecsGnivHmFbkW8ga16M04ehcRG6Y7oqprVaSrnXnKT37B38hbmfDqmSagfU7RndieLPC47c5U6BGIY8w4ZNghNzgiJHiYQM_aO_SnvGLSL0wJ9SU"/>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<div class="p-margin-page max-w-7xl mx-auto w-full flex-1">
+<!-- Controls Row -->
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Engineering Dept</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fiscal Year 2024</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<select class="appearance-none bg-surface border border-border-subtle rounded-lg py-2 pl-4 pr-10 font-body-sm text-body-sm text-primary focus:ring-2 focus:ring-secondary focus:border-secondary transition-all">
+<option>October 2024</option>
+<option>September 2024</option>
+<option>August 2024</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-sm" data-icon="expand_more">expand_more</span>
+</div>
+<button class="bg-surface border border-border-subtle rounded-lg px-4 py-2 font-body-sm text-body-sm text-primary hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- Hero Stat Row (4 Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-grid mb-stack-lg">
+<!-- Card 1: Monthly Budget -->
+<div class="bg-surface rounded-xl border border-border-subtle p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Monthly Budget</p>
+<p class="font-headline-lg text-headline-lg text-primary tabular-nums">$50,000.00</p>
+</div>
+<!-- Card 2: Total Approved -->
+<div class="bg-surface rounded-xl border border-border-subtle p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Total Approved</p>
+<p class="font-headline-lg text-headline-lg text-primary tabular-nums">$32,450.00</p>
+</div>
+<!-- Card 3: Total Pending -->
+<div class="bg-surface rounded-xl border border-border-subtle p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Total Pending</p>
+<p class="font-headline-lg text-headline-lg text-primary tabular-nums">$4,120.00</p>
+</div>
+<!-- Card 4: Remaining Budget (Healthy) -->
+<div class="bg-surface rounded-xl border border-border-subtle p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] relative overflow-hidden">
+<!-- Subtle healthy background glow -->
+<div class="absolute right-0 bottom-0 w-32 h-32 bg-status-approved opacity-5 rounded-tl-full pointer-events-none"></div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Remaining Budget</p>
+<p class="font-headline-lg text-headline-lg text-status-approved tabular-nums">$13,430.00</p>
+</div>
+</div>
+<!-- Horizontal Usage Bar Section -->
+<div class="bg-surface rounded-xl border border-border-subtle p-8 shadow-[0_4px_12px_rgba(0,0,0,0.05)] mb-stack-lg">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-headline-sm text-headline-sm text-primary">Budget Utilization</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant tabular-nums">73.1% Consumed</p>
+</div>
+<!-- The Bar -->
+<div class="w-full h-8 bg-surface-container rounded-full overflow-hidden flex shadow-inner">
+<!-- Approved Section (64.9%) -->
+<div class="h-full bg-primary transition-all duration-1000 ease-out relative group" style="width: 64.9%;">
+<div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+<!-- Pending Section (8.2%) -->
+<div class="h-full bg-status-pending transition-all duration-1000 ease-out relative group" style="width: 8.2%;">
+<div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-6 mt-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Approved (64.9%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-status-pending"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pending (8.2%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-surface-container border border-outline-variant"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Remaining (26.9%)</span>
+</div>
+</div>
+</div>
+<!-- Claim Status Chips Row -->
+<div class="flex gap-4">
+<!-- Approved Count -->
+<div class="flex items-center gap-3 bg-surface border border-border-subtle rounded-lg px-4 py-3 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-status-approved"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Approved Claims</span>
+<span class="font-label-md text-label-md text-primary ml-2 tabular-nums">142</span>
+</div>
+<!-- Pending Count -->
+<div class="flex items-center gap-3 bg-surface border border-border-subtle rounded-lg px-4 py-3 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-status-pending"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pending Review</span>
+<span class="font-label-md text-label-md text-primary ml-2 tabular-nums">18</span>
+</div>
+<!-- Rejected Count -->
+<div class="flex items-center gap-3 bg-surface border border-border-subtle rounded-lg px-4 py-3 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-status-rejected"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rejected Claims</span>
+<span class="font-label-md text-label-md text-primary ml-2 tabular-nums">5</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

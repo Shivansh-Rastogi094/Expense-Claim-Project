@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Claims - ExpenseFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#eae7e9",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#271901",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "on-tertiary-fixed": "#271901",
+                        "secondary-fixed": "#dbe1ff",
+                        "primary-container": "#131b2e",
+                        "primary": "#000000",
+                        "background": "#fcf8fa",
+                        "surface-container-highest": "#e4e2e4",
+                        "surface-variant": "#e4e2e4",
+                        "border-subtle": "#E2E8F0",
+                        "surface-container-low": "#f6f3f5",
+                        "inverse-primary": "#bec6e0",
+                        "inverse-surface": "#303032",
+                        "outline-variant": "#c6c6cd",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-secondary-fixed": "#00174b",
+                        "primary-fixed": "#dae2fd",
+                        "tertiary-fixed": "#fcdeb5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "outline": "#76777d",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface": "#fcf8fa",
+                        "surface-container": "#f0edef",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#dcd9db",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-background": "#1b1b1d",
+                        "tertiary": "#000000",
+                        "status-pending": "#F59E0B",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0051d5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1b1b1d",
+                        "status-rejected": "#EF4444",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "surface-muted": "#F8FAFC",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-bright": "#fcf8fa",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-container": "#98805d",
+                        "status-approved": "#10B981",
+                        "surface-tint": "#565e74"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "0.5rem",
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "margin-page": "2rem",
+                        "gutter-grid": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Manrope"],
+                        "headline-sm": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .fill-icon { font-variation-settings: 'FILL' 1; }
+        
+        /* Ambient shadow for focus areas */
+        .ambient-shadow {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface-muted font-body-md text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-surface-container-low dark:bg-surface-container-lowest border-r border-border-subtle dark:border-outline-variant flex flex-col py-6 px-4 z-20 hidden md:flex">
+<div class="mb-8 px-4 flex flex-col gap-1">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">ExpenseFlow</h1>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Finance Dept</span>
+</div>
+<ul class="flex flex-col gap-2 font-body-md text-body-md text-secondary dark:text-secondary-fixed flex-1">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                    Submit Claim
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+                    All Claims
+                </a>
+</li>
+<li>
+<!-- Active Navigation: Review Claims -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-semibold transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="fact_check">fact_check</span>
+                    Review Claims
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Budgets
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 ease-in-out px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                    Monthly Summary
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4 pt-6 border-t border-border-subtle">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover bg-surface-container-high" data-alt="A small circular avatar image of a professional finance manager in a well-lit office setting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkgJMURxz6iwfy3N65dqYMZ2CUe5QfVo8IOKg8I6fAdwGft4GCQC-3KZy5JqW_B6rvHFsRwbZQX-dcNqFmG0Xip_fLU-eN6s5xqkNIhBxqSNIZL2GnQ2DoyQxWwfP4Py_aFOgwtSEfUT53zh_NLj7ruO-kE4Hg8lZmIfQj_sc1d7gi3XU1gzBU_5ltnAJRadIj_oAmDZYVTQa_CvlH3bDYS1dgcTPSwFUCALRLC0Cdwh6w_y8bzU00gXUJPfI7Ufi6E8okHrk2oHBW"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold">Admin User</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Manager</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-64 w-full h-full">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline-variant w-full z-10 flex justify-between items-center px-8 py-4 sticky top-0">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-on-surface md:hidden">ExpenseFlow</h2>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-on-surface hidden md:block">Pending Reviews</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden"></div> <!-- Search hidden per JSON -->
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<img alt="Manager Avatar" class="w-8 h-8 rounded-full object-cover bg-surface-container-high md:hidden" data-alt="A small circular avatar image of a professional finance manager in a well-lit office setting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8LQboWX5zZ5fnev_FhjyQOxiEs7UpjgZ2s7wfx7ox1pj0dKn3p2Z3Je7rlaiymGKzIvQuBy6xMzYfIUuoPDmKhkUUhENw4XYb9Vs0GfOODh3tDCAA9kablFBkB2cXMI_FFx_VIal2Xv7cy-Ixq7vwDEdU9XUhfHa_pOLE-e5y8hP6Dnspb79_fnhpGZSn6smiJllMtJu8dPYomoFuPT2G__CsDEDUmRfWL4wClO5kiKRc-jzAlH5259VT-Ou2hIBld7S4mJTMdZYB"/>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-4 md:p-margin-page">
+<div class="max-w-4xl mx-auto flex flex-col gap-stack-lg">
+<!-- Page Header / Context -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary font-bold">Action Required</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Review and process 4 pending claims.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-border-subtle rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<!-- Stacked List of Cards -->
+<div class="flex flex-col gap-6">
+<!-- Claim Card 1 -->
+<article class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 ambient-shadow flex flex-col gap-6 relative overflow-hidden">
+<!-- Status Bar -->
+<div class="absolute top-0 left-0 w-1 h-full bg-status-pending"></div>
+<!-- Top Details Row -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-subtle pb-6">
+<div class="flex items-center gap-4">
+<img alt="Employee Photo" class="w-12 h-12 rounded-full object-cover border border-border-subtle" data-alt="A close up professional headshot of a female employee in a modern corporate setting, soft lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeSm60Qq_n2vJ1ZN-Ww5ukeKqBd4MJio-0QQRXQ-PGahgf6guuZlYKx5-4IKMAcLg__xRkxKuHByndd3x9yCnX21mviBdHSq_ZshVIYACcSdVDbTcINJiLY8Of-Nm3FJRJAK-hd527E1a-A06e1bPIQcUuON-rmI_hTQghM7u8R1priaTGBClbWmLiwvmbS2q4dFFaiAfHuXF4AYfJRP8KsC4hA9m369DoPE7IzqVrcAKTmTScc40cn9jPORDSPqQ3b-qVYOco0jGR"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Sarah Jenkins</span>
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+<span>Marketing Dept</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>Submitted Oct 12, 2023</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md font-bold text-primary block">₹ 45,200</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm uppercase bg-status-pending/10 text-status-pending px-2 py-1 rounded mt-1">
+                                    Pending Approval
+                                </span>
+</div>
+</div>
+<!-- Mid Details Row: Category & Description -->
+<div class="flex gap-4 items-start">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center flex-shrink-0 text-secondary">
+<span class="material-symbols-outlined" data-icon="flight">flight</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Client Site Visit - Q4 Campaign</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                                    Flights and accommodation for the final presentation of the Q4 marketing campaign in Mumbai. Includes economy class flights and 2 nights hotel stay. All receipts attached in primary system.
+                                </p>
+</div>
+</div>
+<!-- Budget Context Line -->
+<div class="bg-surface-container-low p-4 rounded-lg flex flex-col gap-2 border border-border-subtle">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Marketing Travel Budget</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">
+                                    ₹210,000 / ₹300,000 <span class="text-on-surface-variant font-normal">used</span>
+</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mt-1">
+<div class="h-full bg-secondary rounded-full" style="width: 70%"></div>
+</div>
+<div class="text-right font-label-sm text-label-sm text-on-surface-variant mt-1">
+                                Approving this will utilize 15% of remaining budget.
+                            </div>
+</div>
+<!-- Action Area -->
+<div class="flex flex-col gap-4 mt-2">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md font-bold text-on-surface flex items-center gap-1" for="remark-1">
+                                    Review Remark <span class="text-status-rejected">*</span>
+</label>
+<textarea class="w-full h-24 bg-surface-container-lowest border border-border-subtle rounded-lg p-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none resize-none transition-shadow" id="remark-1" placeholder="Enter reason for approval or rejection..." required=""></textarea>
+</div>
+<div class="flex justify-end gap-3 mt-2">
+<button class="px-6 py-2.5 border border-status-rejected text-status-rejected hover:bg-error-container/50 font-label-md text-label-md font-bold rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                                    Reject
+                                </button>
+<button class="px-6 py-2.5 bg-status-approved text-white hover:bg-status-approved/90 font-label-md text-label-md font-bold rounded-lg transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                    Approve
+                                </button>
+</div>
+</div>
+</article>
+<!-- Claim Card 2 -->
+<article class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 ambient-shadow flex flex-col gap-6 relative overflow-hidden">
+<!-- Status Bar -->
+<div class="absolute top-0 left-0 w-1 h-full bg-status-pending"></div>
+<!-- Top Details Row -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-subtle pb-6">
+<div class="flex items-center gap-4">
+<img alt="Employee Photo" class="w-12 h-12 rounded-full object-cover border border-border-subtle" data-alt="A close up professional headshot of a male software engineer in a modern office, casual attire, bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVog53F9k8lepcCWlBmn4Gc6kKAou__HS73JU37JLRuVIjKZ9mSbvPdV3qKoUY6wstPm_QgQEq8kMYyIMp8j7Exu8gZft5yj86BYXsfZysmJMrA540enImRNfWCz7R7oc9Rntt22XhWXQNoFpl1JssiPzMrk-Uxv-0RnycYv6Dqi_BkpXACofRLJKNu0Ql3EU_ANzvrVy0LWy0pJ5GcBDJjkCKxY0L2ngxFNGSNg3yMXOrC2NBLfFAYg3OdzMAvoYaGbwQhrZ0t6hR"/>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">David Chen</span>
+<div class="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+<span>Engineering Dept</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span>Submitted Oct 14, 2023</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md font-bold text-primary block">₹ 12,500</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm uppercase bg-status-pending/10 text-status-pending px-2 py-1 rounded mt-1">
+                                    Pending Approval
+                                </span>
+</div>
+</div>
+<!-- Mid Details Row: Category & Description -->
+<div class="flex gap-4 items-start">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center flex-shrink-0 text-secondary">
+<span class="material-symbols-outlined" data-icon="devices">devices</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Software Subscriptions - IDE</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                                    Annual renewal for JetBrains All Products Pack and GitHub Copilot licenses for the frontend engineering team. Pre-approved by Engineering Director.
+                                </p>
+</div>
+</div>
+<!-- Budget Context Line -->
+<div class="bg-surface-container-low p-4 rounded-lg flex flex-col gap-2 border border-border-subtle">
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Eng Software Budget</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-on-surface">
+                                    ₹38,000 / ₹50,000 <span class="text-on-surface-variant font-normal">used</span>
+</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mt-1">
+<div class="h-full bg-secondary rounded-full" style="width: 76%"></div>
+</div>
+<div class="text-right font-label-sm text-label-sm text-status-pending mt-1">
+                                Warning: Approving this leaves only ₹-500 in budget (Over by 1%).
+                            </div>
+</div>
+<!-- Action Area -->
+<div class="flex flex-col gap-4 mt-2">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md font-bold text-on-surface flex items-center gap-1" for="remark-2">
+                                    Review Remark <span class="text-status-rejected">*</span>
+</label>
+<textarea class="w-full h-24 bg-surface-container-lowest border border-border-subtle rounded-lg p-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none resize-none transition-shadow" id="remark-2" placeholder="Enter reason for approval or rejection..." required=""></textarea>
+</div>
+<div class="flex justify-end gap-3 mt-2">
+<button class="px-6 py-2.5 border border-status-rejected text-status-rejected hover:bg-error-container/50 font-label-md text-label-md font-bold rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                                    Reject
+                                </button>
+<button class="px-6 py-2.5 bg-status-approved text-white hover:bg-status-approved/90 font-label-md text-label-md font-bold rounded-lg transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                    Approve
+                                </button>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,221 @@
+{
+  "info": {
+    "name": "Department Expense Approval System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" },
+    { "key": "claimId", "value": "" },
+    { "key": "budgetId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Departments",
+      "item": [
+        {
+          "name": "Get Departments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/departments"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Budgets",
+      "item": [
+        {
+          "name": "Create Budget - Engineering June 2026",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/budgets",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department\": \"ENGINEERING\",\n  \"month\": 6,\n  \"year\": 2026,\n  \"budgetAmount\": 50000.00\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Budget - Duplicate (expect 409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/budgets",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department\": \"ENGINEERING\",\n  \"month\": 6,\n  \"year\": 2026,\n  \"budgetAmount\": 50000.00\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Budget - Invalid Amount (expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/budgets",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department\": \"MARKETING\",\n  \"month\": 6,\n  \"year\": 2026,\n  \"budgetAmount\": -100\n}"
+            }
+          }
+        },
+        {
+          "name": "List Budgets",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/budgets?department=ENGINEERING&year=2026"
+          }
+        },
+        {
+          "name": "Lookup Budget",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/budgets/lookup?department=ENGINEERING&month=6&year=2026"
+          }
+        },
+        {
+          "name": "Update Budget",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/budgets/{{budgetId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"budgetAmount\": 55000.00\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claims",
+      "item": [
+        {
+          "name": "Submit Claim - Valid",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeName\": \"Riya Sharma\",\n  \"department\": \"ENGINEERING\",\n  \"category\": \"TRAVEL\",\n  \"amount\": 4500.00,\n  \"expenseDate\": \"2026-06-15\",\n  \"description\": \"Client site visit\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Submit Claim - Large amount (for budget-exceed test)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeName\": \"Aman Verma\",\n  \"department\": \"ENGINEERING\",\n  \"category\": \"EQUIPMENT\",\n  \"amount\": 49000.00,\n  \"expenseDate\": \"2026-06-20\",\n  \"description\": \"New laptop\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Submit Claim - Invalid (amount = 0, expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeName\": \"Test User\",\n  \"department\": \"ENGINEERING\",\n  \"category\": \"FOOD\",\n  \"amount\": 0,\n  \"expenseDate\": \"2026-06-15\",\n  \"description\": \"Invalid amount\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Claims - All",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/claims"
+          }
+        },
+        {
+          "name": "List Claims - Filtered",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/claims?department=ENGINEERING&month=6&year=2026&status=PENDING&category=TRAVEL"
+          }
+        },
+        {
+          "name": "Get Claim by Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/claims/{{claimId}}"
+          }
+        },
+        {
+          "name": "Approve Claim - Success",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims/{{claimId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewRemark\": \"Within budget, approved.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Approve Claim - Exceeds Budget (expect 409)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims/{{claimId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewRemark\": \"Attempting approval beyond budget.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Approve Claim - Already Reviewed (expect 409)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims/{{claimId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewRemark\": \"Re-approving an already reviewed claim.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reject Claim",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/claims/{{claimId}}/reject",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewRemark\": \"Missing valid bill.\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Summary",
+      "item": [
+        {
+          "name": "Monthly Summary - Engineering June 2026",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/summary?department=ENGINEERING&month=6&year=2026"
+          }
+        },
+        {
+          "name": "Monthly Summary - No Budget Defined",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/summary?department=MARKETING&month=6&year=2026"
+          }
+        }
+      ]
+    }
+  ]
+}

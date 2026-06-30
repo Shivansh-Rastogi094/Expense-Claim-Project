@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ExpenseFlow - All Claims</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-tertiary": "#ffffff",
+                            "surface-container-high": "#eae7e9",
+                            "on-secondary": "#ffffff",
+                            "tertiary-container": "#271901",
+                            "on-error": "#ffffff",
+                            "on-surface-variant": "#45464d",
+                            "on-tertiary-fixed": "#271901",
+                            "secondary-fixed": "#dbe1ff",
+                            "primary-container": "#131b2e",
+                            "primary": "#000000",
+                            "background": "#fcf8fa",
+                            "surface-container-highest": "#e4e2e4",
+                            "surface-variant": "#e4e2e4",
+                            "border-subtle": "#E2E8F0",
+                            "surface-container-low": "#f6f3f5",
+                            "inverse-primary": "#bec6e0",
+                            "inverse-surface": "#303032",
+                            "outline-variant": "#c6c6cd",
+                            "inverse-on-surface": "#f3f0f2",
+                            "on-secondary-fixed": "#00174b",
+                            "primary-fixed": "#dae2fd",
+                            "tertiary-fixed": "#fcdeb5",
+                            "primary-fixed-dim": "#bec6e0",
+                            "error": "#ba1a1a",
+                            "error-container": "#ffdad6",
+                            "outline": "#76777d",
+                            "secondary-fixed-dim": "#b4c5ff",
+                            "surface": "#fcf8fa",
+                            "surface-container": "#f0edef",
+                            "on-tertiary-fixed-variant": "#574425",
+                            "on-primary-container": "#7c839b",
+                            "surface-dim": "#dcd9db",
+                            "on-secondary-fixed-variant": "#003ea8",
+                            "on-background": "#1b1b1d",
+                            "tertiary": "#000000",
+                            "status-pending": "#F59E0B",
+                            "on-error-container": "#93000a",
+                            "secondary": "#0051d5",
+                            "surface-container-lowest": "#ffffff",
+                            "on-surface": "#1b1b1d",
+                            "status-rejected": "#EF4444",
+                            "tertiary-fixed-dim": "#dec29a",
+                            "surface-muted": "#F8FAFC",
+                            "on-primary": "#ffffff",
+                            "on-primary-fixed-variant": "#3f465c",
+                            "surface-bright": "#fcf8fa",
+                            "on-primary-fixed": "#131b2e",
+                            "secondary-container": "#316bf3",
+                            "on-secondary-container": "#fefcff",
+                            "on-tertiary-container": "#98805d",
+                            "status-approved": "#10B981",
+                            "surface-tint": "#565e74"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "stack-sm": "0.5rem",
+                            "stack-md": "1rem",
+                            "stack-lg": "2rem",
+                            "margin-page": "2rem",
+                            "gutter-grid": "1.5rem"
+                    },
+                    "fontFamily": {
+                            "body-lg": ["Inter"],
+                            "body-md": ["Inter"],
+                            "body-sm": ["Inter"],
+                            "label-sm": ["JetBrains Mono"],
+                            "headline-lg": ["Manrope"],
+                            "label-md": ["JetBrains Mono"],
+                            "headline-md": ["Manrope"],
+                            "headline-sm": ["Manrope"],
+                            "headline-lg-mobile": ["Manrope"]
+                    },
+                    "fontSize": {
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                            "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .badge {
+            @apply inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm uppercase tracking-wider;
+        }
+        
+        .badge-approved {
+            @apply bg-status-approved/10 text-status-approved;
+        }
+        
+        .badge-pending {
+            @apply bg-status-pending/10 text-status-pending;
+        }
+        
+        .badge-rejected {
+            @apply bg-status-rejected/10 text-status-rejected;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex">
+<!-- SideNavBar (Semantic Intent: Main Ecosystem, Active: All Claims) -->
+<nav class="hidden md:flex flex-col h-screen py-6 px-4 fixed left-0 top-0 h-full w-64 bg-surface-container-low border-r border-border-subtle z-20">
+<div class="mb-8 px-4 flex items-center gap-3">
+<img alt="ExpenseFlow Logo" class="w-8 h-8 rounded-lg object-cover" data-alt="A small, professional corporate logo for ExpenseFlow, featuring a modern, abstract geometric design in shades of blue and deep charcoal, symbolizing financial flow and stability on a clean light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtjOwM8ZMBJP6cMNVDo0LJZXW0MXuykmyVzl6sC9OIa2etQZ2xHcJhqIOqkY0BHGnlUGyaMIXNm48Ky1raD5zo5bueVX8iYQAz7lusJgPlGGgb_46k_Dzp8F9Qv_OEWdff1j4x2quzYguIvJO5pdppbuJkrJe9L61oJWK8haAzL62OzVR7bPONLXLx6h2HnIz9UG5-hJVfTRwIMIcbcL_2Gd6U4IIiw8HRpAqKozY4GuPZtq1uarewYlFmjAzyVeMIpMCAidxhCAb_"/>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-primary">ExpenseFlow</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Finance Dept</div>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_circle</span>
+                Submit Claim
+            </a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-semibold font-body-md text-body-md transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+                All Claims
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">fact_check</span>
+                Review Claims
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance_wallet</span>
+                Budgets
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-colors px-4 py-3 rounded-lg font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">calendar_month</span>
+                Monthly Summary
+            </a>
+</div>
+<div class="mt-auto px-4 py-4 flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a corporate finance manager, wearing a dark suit against a bright, neutral light-grey background, conveying trust and competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv_9gZPAaRxZymySDnpdhPZ2o3pMpuwIKdyKXKwyQrMnlrnhhXytz5MOGqiMA_LPhF_J6hXr3uuUN50ExgbI1PitHYp94-TDW62EeGN7Y_A5M979bdYUTPmkbHDtwyV1OA4Op0H5m1lbNwjXEBYkooIeZOHizmJMUHA57PX2MMN3wV3_IMQLMzE2W7_COl823-d8fEwJ7tJHDziHIQgAZlplpKUa-AF1RAf-oWF5tABTbaeRW9QCq-1iUbYf4SPL7rpDKAYoZR5d19"/>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                Settings &amp; Profile
+             </div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-8 py-4 bg-surface border-b border-border-subtle sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">All Claims</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer active:opacity-70 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<img alt="Manager Avatar" class="w-8 h-8 rounded-full object-cover border border-border-subtle" data-alt="A professional headshot of a corporate finance manager, wearing a dark suit against a bright, neutral light-grey background, conveying trust and competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT1Wn0rQQOjC12wCjpMk5tl02Q534xyaeuHlCXHH_gBYz221FxoOSX04z0RzVvchLY2-xGa7coVHTmIhmWNyWdtJh1SWJpY5olCh9SUl1x-cVSc3jVf51P3gO9pWKkBwyhNfw8b4hLThem_z80ICNDGXYhveFiU5puTQoIDHzP-uhbQFKGyiYyKJW19EVPKI5ty1PKGDZulOWg17KB5MwI_wOxO3zt3VAmu5riitHu0-twUUqYIcav80m8633TDdDNCzedy5AOZONi"/>
+</div>
+</header>
+<!-- Canvas Content -->
+<div class="p-8 flex-1 flex flex-col gap-6">
+<!-- Filters -->
+<div class="flex flex-wrap items-center gap-3">
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-border-subtle rounded-full font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Department
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-border-subtle rounded-full font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Month
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-border-subtle rounded-full font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Year
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-border-subtle rounded-full font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Status
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low border border-border-subtle rounded-full font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Category
+                        <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="ml-auto text-secondary font-label-md text-label-md hover:underline">
+                    Clear Filters
+                </button>
+</div>
+<!-- Results Count & Data Table Container -->
+<div class="flex-1 flex flex-col bg-surface-container-lowest border border-border-subtle rounded-[16px] overflow-hidden shadow-sm">
+<div class="px-6 py-4 border-b border-border-subtle bg-surface-muted flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing 42 claims</span>
+<button class="text-on-surface-variant hover:text-secondary p-1">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-subtle bg-surface-container-lowest">
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Employee</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Department</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Category</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium text-right">Amount</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Date</th>
+<th class="px-6 py-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-medium">Status</th>
+<th class="px-6 py-3"></th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="border-b border-border-subtle hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs">JD</div>
+<span class="font-medium text-on-surface">Jane Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Engineering</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Travel</td>
+<td class="px-6 py-4 whitespace-nowrap text-right font-medium text-on-surface tabular-nums">$1,245.00</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="badge badge-approved">Approved</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-border-subtle hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-tint text-on-primary flex items-center justify-center font-bold text-xs">AS</div>
+<span class="font-medium text-on-surface">Alex Smith</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Marketing</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Software</td>
+<td class="px-6 py-4 whitespace-nowrap text-right font-medium text-on-surface tabular-nums">$299.99</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="badge badge-pending">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-border-subtle hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-tint text-on-primary flex items-center justify-center font-bold text-xs">MJ</div>
+<span class="font-medium text-on-surface">Maria Jones</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Sales</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Meals</td>
+<td class="px-6 py-4 whitespace-nowrap text-right font-medium text-on-surface tabular-nums">$145.50</td>
+<td class="px-6 py-4 whitespace-nowrap text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="badge badge-rejected">Rejected</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Empty State (Hidden by default in this mockup, structure provided) -->
+<!--
+                             <tr class="hidden">
+                                 <td colspan="7">
+                                     <div class="flex flex-col items-center justify-center py-16 text-center">
+                                         <div class="w-32 h-32 mb-4 text-outline-variant">
+                                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                             </svg>
+                                         </div>
+                                         <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">No claims found</h3>
+                                         <p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">Try adjusting your filters or search terms to find what you're looking for.</p>
+                                     </div>
+                                 </td>
+                             </tr>
+                             -->
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-border-subtle bg-surface-container-lowest flex justify-between items-center">
+<button class="px-4 py-2 border border-border-subtle rounded-md font-label-md text-label-md text-on-surface hover:bg-surface-muted disabled:opacity-50" disabled="">Previous</button>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-secondary text-on-secondary font-label-md text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-muted text-on-surface font-label-md text-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-muted text-on-surface font-label-md text-label-md">3</button>
+</div>
+<button class="px-4 py-2 border border-border-subtle rounded-md font-label-md text-label-md text-on-surface hover:bg-surface-muted">Next</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
