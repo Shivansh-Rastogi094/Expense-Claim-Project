@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import apiClient from "../api/apiClient";
+import { SummaryService } from "../services/summaryService";
 
 export default function SummaryPage() {
   const [departments, setDepartments] = useState([]);
@@ -26,12 +26,11 @@ export default function SummaryPage() {
 
   // Fetch departments on mount
   useEffect(() => {
-    apiClient
-      .get("/departments")
-      .then((res) => {
-        setDepartments(res.data);
-        if (res.data.length > 0) {
-          setSelectedDept(res.data[0]);
+    SummaryService.getDepartments()
+      .then((data) => {
+        setDepartments(data);
+        if (data.length > 0) {
+          setSelectedDept(data[0]);
         }
       })
       .catch((err) => console.error("Failed to fetch departments", err));
@@ -47,14 +46,12 @@ export default function SummaryPage() {
   const fetchSummary = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.get("/summary", {
-        params: {
-          department: selectedDept,
-          month: selectedMonth,
-          year: selectedYear,
-        },
+      const data = await SummaryService.getSummary({
+        department: selectedDept,
+        month: selectedMonth,
+        year: selectedYear,
       });
-      setSummary(res.data);
+      setSummary(data);
     } catch (err) {
       console.error("Failed to fetch summary", err);
       setSummary(null);

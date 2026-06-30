@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import apiClient from "../api/apiClient";
+import { ClaimService } from "../services/claimService";
+import { SummaryService } from "../services/summaryService";
 
 export default function SubmitClaimPage() {
   const [departments, setDepartments] = useState([]);
@@ -26,12 +27,11 @@ export default function SubmitClaimPage() {
 
   // Fetch departments on load
   useEffect(() => {
-    apiClient
-      .get("/departments")
-      .then((res) => {
-        setDepartments(res.data);
-        if (res.data.length > 0) {
-          setFormData((prev) => ({ ...prev, department: res.data[0] }));
+    SummaryService.getDepartments()
+      .then((data) => {
+        setDepartments(data);
+        if (data.length > 0) {
+          setFormData((prev) => ({ ...prev, department: data[0] }));
         }
       })
       .catch((err) => {
@@ -75,7 +75,7 @@ export default function SubmitClaimPage() {
         amount: parseFloat(formData.amount),
       };
 
-      await apiClient.post("/claims", payload);
+      await ClaimService.submitClaim(payload);
       setSuccessMsg("Expense claim submitted successfully!");
       setFormData({
         employeeName: "",

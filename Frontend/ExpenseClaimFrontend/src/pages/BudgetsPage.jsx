@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import apiClient from "../api/apiClient";
+import { BudgetService } from "../services/budgetService";
+import { SummaryService } from "../services/summaryService";
 
 export default function BudgetsPage() {
   const [budgets, setBudgets] = useState([]);
@@ -54,10 +55,10 @@ export default function BudgetsPage() {
 
   const fetchDepartments = async () => {
     try {
-      const res = await apiClient.get("/departments");
-      setDepartments(res.data);
-      if (res.data.length > 0) {
-        setFormData((prev) => ({ ...prev, department: res.data[0] }));
+      const data = await SummaryService.getDepartments();
+      setDepartments(data);
+      if (data.length > 0) {
+        setFormData((prev) => ({ ...prev, department: data[0] }));
       }
     } catch (err) {
       console.error("Failed to fetch departments", err);
@@ -67,8 +68,8 @@ export default function BudgetsPage() {
   const fetchBudgets = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.get("/budgets");
-      setBudgets(res.data);
+      const data = await BudgetService.getBudgets();
+      setBudgets(data);
     } catch (err) {
       console.error("Failed to fetch budgets", err);
     } finally {
@@ -94,7 +95,7 @@ export default function BudgetsPage() {
         budgetAmount: parseFloat(formData.budgetAmount),
       };
 
-      await apiClient.post("/budgets", payload);
+      await BudgetService.addBudget(payload);
       setSuccessMsg("Budget added successfully!");
       setFormData((prev) => ({
         ...prev,
@@ -124,11 +125,7 @@ export default function BudgetsPage() {
     setSuccessMsg("");
 
     try {
-      const payload = {
-        budgetAmount: parseFloat(editAmount),
-      };
-
-      await apiClient.put(`/budgets/${id}`, payload);
+      await BudgetService.updateBudget(id, parseFloat(editAmount));
       setSuccessMsg("Budget updated successfully!");
       setEditingId(null);
       setEditAmount("");
@@ -146,8 +143,6 @@ export default function BudgetsPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto w-full flex-1 flex flex-col gap-6">
-      {/* Add Budget Inline Form */}
-
       {/* Add Budget Inline Form */}
       <div className="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm shrink-0">
         <h3 className="font-headline-sm text-headline-sm text-primary font-bold mb-4">

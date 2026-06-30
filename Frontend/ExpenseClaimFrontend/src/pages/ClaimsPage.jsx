@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import apiClient from "../api/apiClient";
+import { ClaimService } from "../services/claimService";
+import { SummaryService } from "../services/summaryService";
 
 export default function ClaimsPage() {
   const [claims, setClaims] = useState([]);
@@ -45,9 +46,8 @@ export default function ClaimsPage() {
 
   // Fetch departments
   useEffect(() => {
-    apiClient
-      .get("/departments")
-      .then((res) => setDepartments(res.data))
+    SummaryService.getDepartments()
+      .then((data) => setDepartments(data))
       .catch((err) => console.error("Failed to fetch departments", err));
   }, []);
 
@@ -66,8 +66,8 @@ export default function ClaimsPage() {
       if (filterStatus) params.status = filterStatus;
       if (filterCategory) params.category = filterCategory;
 
-      const res = await apiClient.get("/claims", { params });
-      setClaims(res.data);
+      const data = await ClaimService.getClaims(params);
+      setClaims(data);
     } catch (err) {
       console.error("Failed to fetch claims", err);
     } finally {

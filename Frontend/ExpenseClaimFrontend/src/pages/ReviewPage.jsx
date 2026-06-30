@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import apiClient from "../api/apiClient";
+import { ClaimService } from "../services/claimService";
+import { SummaryService } from "../services/summaryService";
 
 export default function ReviewPage() {
   const [pendingClaims, setPendingClaims] = useState([]);
@@ -46,10 +47,10 @@ export default function ReviewPage() {
   const fetchPendingClaims = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.get("/claims", { params: { status: "PENDING" } });
-      setPendingClaims(res.data);
-      if (res.data.length > 0) {
-        setSelectedClaim(res.data[0]);
+      const data = await ClaimService.getClaims({ status: "PENDING" });
+      setPendingClaims(data);
+      if (data.length > 0) {
+        setSelectedClaim(data[0]);
       } else {
         setSelectedClaim(null);
       }
@@ -66,14 +67,12 @@ export default function ReviewPage() {
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
 
-      const res = await apiClient.get("/summary", {
-        params: {
-          department: claim.department,
-          month,
-          year,
-        },
+      const data = await SummaryService.getSummary({
+        department: claim.department,
+        month,
+        year,
       });
-      setBudgetSummary(res.data);
+      setBudgetSummary(data);
     } catch (err) {
       console.error("Failed to fetch budget summary", err);
       setBudgetSummary(null);
@@ -87,11 +86,11 @@ export default function ReviewPage() {
     setSuccessMsg("");
 
     try {
-      await apiClient.put(`/claims/${selectedClaim.id}/approve`, {
-        reviewRemark: reviewRemark.trim() || "Approved",
-      });
+      await ClaimService.approveClaim(
+        selectedClaim.id,
+        reviewRemark.trim() || "Approved"
+      );
       setSuccessMsg("Claim approved successfully!");
-      // Remove approved claim from local list
       const updatedClaims = pendingClaims.filter((c) => c.id !== selectedClaim.id);
       setPendingClaims(updatedClaims);
       if (updatedClaims.length > 0) {
@@ -118,9 +117,7 @@ export default function ReviewPage() {
     setSuccessMsg("");
 
     try {
-      await apiClient.put(`/claims/${selectedClaim.id}/reject`, {
-        reviewRemark: reviewRemark.trim(),
-      });
+      await ClaimService.rejectClaim(selectedClaim.id, reviewRemark.trim());
       setSuccessMsg("Claim rejected successfully!");
       const updatedClaims = pendingClaims.filter((c) => c.id !== selectedClaim.id);
       setPendingClaims(updatedClaims);
@@ -224,8 +221,6 @@ export default function ReviewPage() {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
               {/* Claim Information Grid */}
-
-              {/* Claim Information Grid */}
               <div className="grid grid-cols-2 gap-y-4 gap-x-6 bg-surface p-4 rounded-xl border border-border-subtle">
                 <div>
                   <span className="block text-xs text-on-surface-variant font-medium">Employee</span>
@@ -294,11 +289,7 @@ export default function ReviewPage() {
                     </div>
                     <div className="bg-white p-2 rounded border border-border-subtle">
                       <span className="block text-[10px] text-on-surface-variant uppercase">Remaining</span>
-                      <span className={`text-xs font-bold tabular-nums ${
-                        budgetSummary.remainingBudget.compareTo
-                          ? (budgetSummary.remainingBudget < 0 ? "text-status-rejected" : "text-primary")
-                          : (budgetSummary.remainingBudget < 0 ? "text-status-rejected" : "text-primary")
-                      }`}>
+                      <span className="text-xs font-bold text-primary tabular-nums">
                         ₹{budgetSummary.remainingBudget.toLocaleString("en-IN")}
                       </span>
                     </div>
